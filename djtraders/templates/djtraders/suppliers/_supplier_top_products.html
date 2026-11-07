@@ -1,0 +1,17 @@
+{# Top products: "Show Top" and the Measure dropdown reload just the chart (supplier_products_chart). #}
+<div class="dt-card h-100">
+    <h5 class="dt-card-title">Top Products</h5>
+    <nav class="dt-controls js-chart-controls"
+         data-url="{% url 'djtraders:supplier_products_chart' supplier.supplier_id %}"
+         data-target="#dashboard-products">
+        {% include "djtraders/employees/_top_radios.html" with name="products-top" %}
+        <div class="dt-control-group">
+            <label for="products-measure" class="fw-bold mb-0">By</label>
+            <select id="products-measure" class="form-select w-auto" data-param="measure">
+                <option value="revenue" selected>Revenue</option>
+                <option value="units">Units sold</option>
+            </select>
+        </div>
+    </nav>
+    <div id="dashboard-products">{{ product_plot|safe }}</div>
+</div>

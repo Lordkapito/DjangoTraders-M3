@@ -1,0 +1,24 @@
+{% load humanize %}
+{# "Buy it again": products this customer usually reorders that are due (Customer.reorder_due). A prompt to reorder, not a forecast. #}
+<div class="dt-card h-100">
+    <h5 class="dt-card-title"><i class="fa-solid fa-rotate me-1"></i> Buy it again</h5>
+    {% if reorder_due %}
+        <p class="dt-subtle mb-2">Products you usually reorder that are due. Gaps between your orders vary, so treat this as a reminder, not a forecast.</p>
+        <table class="table table-sm align-middle mb-0">
+            <thead>
+                <tr><th>Product</th><th class="text-end">You usually reorder every</th><th class="text-end">Last ordered</th></tr>
+            </thead>
+            <tbody>
+                {% for row in reorder_due %}
+                    <tr>
+                        <td>{{ row.product }}</td>
+                        <td class="text-end">about {{ row.typical_gap|intcomma }} days</td>
+                        <td class="text-end">{{ row.days_since|intcomma }} days ago</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="dt-subtle">Nothing is due yet. We look for products you have bought on at least three different orders; once there is a repeat pattern, the ones you are due to reorder will appear here.</div>
+    {% endif %}
+</div>

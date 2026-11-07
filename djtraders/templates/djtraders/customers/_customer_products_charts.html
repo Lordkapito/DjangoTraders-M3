@@ -1,0 +1,9 @@
+{# Top products by revenue beside top products by units: the fragment customer_products_chart returns and the card's first drawing. #}
+{% if revenue_plot %}
+    <div class="row g-3">
+        <div class="col-xl-6">{{ revenue_plot|safe }}</div>
+        <div class="col-xl-6">{{ units_plot|safe }}</div>
+    </div>
+{% else %}
+    <div class="dt-subtle">No products to chart for this choice.</div>
+{% endif %}

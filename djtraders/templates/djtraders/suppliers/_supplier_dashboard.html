@@ -1,0 +1,42 @@
+{# Partial (no base.html) for the supplier Dashboard tab -- supplier_dashboard view. Everything here covers this supplier's own products only. #}
+{% if annual_plot %}
+    {% include "djtraders/suppliers/_supplier_tiles.html" %}
+    <div class="row g-3 mb-3">
+        <div class="col-lg-6">
+            {% include "djtraders/suppliers/_supplier_revenue_by_year.html" %}
+        </div>
+        <div class="col-lg-6">
+            {% include "djtraders/suppliers/_supplier_revenue_by_month.html" %}
+        </div>
+    </div>
+    <div class="row g-3 mb-3">
+        <div class="col-12">
+            {% include "djtraders/suppliers/_supplier_category_analysis.html" %}
+        </div>
+    </div>
+    <div class="row g-3 mb-3">
+        <div class="col-lg-6">
+            {% include "djtraders/suppliers/_supplier_top_products.html" %}
+        </div>
+        <div class="col-lg-6">
+            {% include "djtraders/suppliers/_supplier_top_customers.html" %}
+        </div>
+    </div>
+    <div class="row g-3 mb-3">
+        <div class="col-12">
+            {% include "djtraders/suppliers/_supplier_comparison.html" %}
+        </div>
+    </div>
+    <div class="row g-3 mb-3">
+        <div class="col-12">
+            {% include "djtraders/suppliers/_supplier_share_change.html" %}
+        </div>
+    </div>
+    <div class="row g-3 mb-3">
+        <div class="col-12">
+            {% include "djtraders/suppliers/_supplier_month_pattern.html" %}
+        </div>
+    </div>
+{% else %}
+    <div class="dt-subtle">This supplier has no placed orders to chart yet.</div>
+{% endif %}

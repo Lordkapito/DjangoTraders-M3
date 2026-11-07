@@ -1,0 +1,26 @@
+{# Category analysis: one set of controls (year, show top, unit-share chart type) reloads both category charts. The first pair arrives drawn with the default controls; a change calls customer_category_chart and ActivateChartControls (DjangoTraders.js) swaps #dashboard-category. #}
+<div class="dt-card h-100">
+    <h5 class="dt-card-title">Category Analysis</h5>
+    <nav class="dt-controls js-chart-controls"
+         data-url="{% url 'djtraders:customer_category_chart' customer.customer_id %}"
+         data-target="#dashboard-category">
+        <div class="dt-control-group">
+            <label for="category-year" class="fw-bold mb-0">Year</label>
+            <select id="category-year" class="form-select w-auto" data-param="year">
+                <option value="all" selected>All years</option>
+                {% for year in order_years %}<option value="{{ year }}">{{ year }}</option>{% endfor %}
+            </select>
+        </div>
+        {% include "djtraders/employees/_top_radios.html" with name="category-top" %}
+        <div class="dt-control-group">
+            <label for="category-kind" class="fw-bold mb-0">Unit share as</label>
+            <select id="category-kind" class="form-select w-auto" data-param="kind">
+                <option value="pie" selected>Pie</option>
+                <option value="bar">Percent bars</option>
+            </select>
+        </div>
+    </nav>
+    <div id="dashboard-category">
+        {% include "djtraders/customers/_customer_category_charts.html" with revenue_plot=category_revenue_plot share_plot=category_share_plot %}
+    </div>
+</div>

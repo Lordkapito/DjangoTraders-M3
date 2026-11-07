@@ -1,0 +1,8 @@
+{# Category mix: this employee's revenue by category as a percent of their own revenue, beside each category's percent of the whole team's combined revenue (Employee.category_mix_plot). The team bars are one aggregate; no colleague appears. #}
+<div class="dt-card h-100">
+    <h5 class="dt-card-title">Category Mix: {{ you_label }} vs. the Team</h5>
+    <div class="text-muted small">
+        Each set of bars adds up to 100%. The blue bars are the share of {% if you_label == "You" %}your own{% else %}{{ you_label }}'s{% endif %} revenue that each category brings in; the gray bars are the share of all employees' combined revenue.
+    </div>
+    {{ category_mix_plot|safe }}
+</div>

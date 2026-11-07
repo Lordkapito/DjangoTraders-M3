@@ -1,0 +1,9 @@
+{# The two category charts side by side: the fragment supplier_category_chart returns and the card's first drawing. #}
+{% if revenue_plot %}
+    <div class="row g-3">
+        <div class="col-lg-6">{{ revenue_plot|safe }}</div>
+        <div class="col-lg-6">{{ share_plot|safe }}</div>
+    </div>
+{% else %}
+    <div class="dt-subtle">No orders to chart for this choice.</div>
+{% endif %}

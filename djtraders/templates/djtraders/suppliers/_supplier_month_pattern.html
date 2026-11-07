@@ -1,0 +1,32 @@
+{# Extra credit S3: is the year steady or bunched into a few months? Measure and view reload the heatmap (supplier_pattern_chart). #}
+<div class="dt-card h-100">
+    <h5 class="dt-card-title">Is my year steady, or bunched into a few months?</h5>
+    {% if pattern_plot %}
+        <nav class="dt-controls js-chart-controls"
+             data-url="{% url 'djtraders:supplier_pattern_chart' supplier.supplier_id %}"
+             data-target="#dashboard-pattern">
+            <div class="dt-control-group">
+                <label for="pattern-measure" class="fw-bold mb-0">Measure</label>
+                <select id="pattern-measure" class="form-select w-auto" data-param="measure">
+                    <option value="revenue" selected>Revenue</option>
+                    <option value="units">Units sold</option>
+                    <option value="orders">Orders</option>
+                </select>
+            </div>
+            <div class="dt-control-group" role="radiogroup" aria-labelledby="pattern-view-label">
+                <span id="pattern-view-label" class="fw-bold">Show</span>
+                <div class="form-check form-check-inline mb-0">
+                    <input class="form-check-input" type="radio" data-param="view" name="pattern-view" id="pattern-view-amount" value="amount" checked>
+                    <label class="form-check-label" for="pattern-view-amount">Amounts</label>
+                </div>
+                <div class="form-check form-check-inline mb-0">
+                    <input class="form-check-input" type="radio" data-param="view" name="pattern-view" id="pattern-view-share" value="share">
+                    <label class="form-check-label" for="pattern-view-share">% of each year</label>
+                </div>
+            </div>
+        </nav>
+        <div id="dashboard-pattern">{{ pattern_plot|safe }}</div>
+    {% else %}
+        <div class="dt-subtle">No orders yet to show a monthly pattern.</div>
+    {% endif %}
+</div>

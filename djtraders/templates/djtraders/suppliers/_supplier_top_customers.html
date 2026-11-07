@@ -1,0 +1,24 @@
+{% load humanize %}
+{# Top customers: the companies that bought this supplier's products, with their orders and share of this supplier's revenue, and nothing about what else they buy (Supplier.top_customers). #}
+<div class="dt-card h-100">
+    <h5 class="dt-card-title">Top Customers</h5>
+    {% if top_customers %}
+        <table class="table table-sm align-middle mb-0">
+            <thead>
+                <tr><th>Customer</th><th class="text-end">Orders</th><th class="text-end">Revenue</th><th class="text-end">Share of your revenue</th></tr>
+            </thead>
+            <tbody>
+                {% for row in top_customers %}
+                    <tr>
+                        <td>{{ row.customer }}</td>
+                        <td class="text-end">{{ row.orders|intcomma }}</td>
+                        <td class="text-end">${{ row.revenue|floatformat:2|intcomma }}</td>
+                        <td class="text-end">{{ row.share|floatformat:1 }}%</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="dt-subtle">No customers have ordered your products yet.</div>
+    {% endif %}
+</div>

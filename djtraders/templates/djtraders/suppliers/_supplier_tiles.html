@@ -1,0 +1,63 @@
+{% load humanize %}
+{# Four summary tiles (numbers from Supplier.dashboard_stats()). Click one to flip it. Changes compare year to date with the same stretch of last year. #}
+<div class="row g-3 mb-3">
+    <div class="col-6 col-lg-3">
+        <div class="dt-flip dt-tile-steel h-100" onclick="this.classList.toggle('dt-flipped')" title="Click to flip">
+            <div class="dt-flip-front">
+                <div class="dt-stat-label">Total Revenue</div>
+                <div class="dt-stat-value">${{ stats.total_revenue|floatformat:2|intcomma }}</div>
+                <div class="dt-stat-note">
+                    {% if stats.revenue_change is None %}
+                        No {{ stats.anchor_year|add:"-1" }} sales to compare with
+                    {% else %}
+                        <i class="fa-solid {% if stats.revenue_change >= 0 %}fa-arrow-trend-up text-success{% else %}fa-arrow-trend-down text-danger{% endif %}"></i>
+                        {{ stats.revenue_change|floatformat:1 }}% vs last year to date
+                    {% endif %}
+                </div>
+            </div>
+            <div class="dt-flip-back">
+                <div class="dt-stat-label">Total Revenue</div>
+                <div class="dt-stat-note">What your products have earned, after discounts. The change compares January 1 to your last sale this year with the same stretch of last year.</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="dt-flip dt-tile-order h-100" onclick="this.classList.toggle('dt-flipped')" title="Click to flip">
+            <div class="dt-flip-front">
+                <div class="dt-stat-label">Orders</div>
+                <div class="dt-stat-value">{{ stats.order_count|intcomma }}</div>
+                <div class="dt-stat-note">{{ stats.orders_in_year }} in {{ stats.anchor_year }}</div>
+            </div>
+            <div class="dt-flip-back">
+                <div class="dt-stat-label">Orders</div>
+                <div class="dt-stat-note">How many different orders included at least one of your products.</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="dt-flip dt-tile-sage h-100" onclick="this.classList.toggle('dt-flipped')" title="Click to flip">
+            <div class="dt-flip-front">
+                <div class="dt-stat-label">Units Sold</div>
+                <div class="dt-stat-value">{{ stats.units|intcomma }}</div>
+                <div class="dt-stat-note">{{ stats.units_in_year|intcomma }} in {{ stats.anchor_year }}</div>
+            </div>
+            <div class="dt-flip-back">
+                <div class="dt-stat-label">Units Sold</div>
+                <div class="dt-stat-note">The total quantity of your products that customers have ordered.</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="dt-flip dt-tile-slate h-100" onclick="this.classList.toggle('dt-flipped')" title="Click to flip">
+            <div class="dt-flip-front">
+                <div class="dt-stat-label">Last Order</div>
+                <div class="dt-stat-value">{{ stats.last_order|date:"M j, Y" }}</div>
+                <div class="dt-stat-note">{{ stats.days_since_last|intcomma }} day{{ stats.days_since_last|pluralize }} ago</div>
+            </div>
+            <div class="dt-flip-back">
+                <div class="dt-stat-label">Last Order</div>
+                <div class="dt-stat-note">The date of the most recent order that included one of your products.</div>
+            </div>
+        </div>
+    </div>
+</div>

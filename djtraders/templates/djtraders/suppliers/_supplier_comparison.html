@@ -1,0 +1,43 @@
+{% load humanize %}
+{# Comparison with all suppliers: you, the average of all suppliers and the best supplier as a plain number. No other supplier is named and none of their figures are in this page (Supplier.comparison, Supplier.comparison_plot). #}
+<div class="dt-card h-100">
+    <h5 class="dt-card-title">How You Compare with All Suppliers</h5>
+    {% if comparison %}
+        <nav class="dt-controls js-chart-controls"
+             data-url="{% url 'djtraders:supplier_comparison_chart' supplier.supplier_id %}"
+             data-target="#dashboard-comparison">
+            <div class="dt-control-group">
+                <label for="comparison-measure" class="fw-bold mb-0">Compare</label>
+                <select id="comparison-measure" class="form-select w-auto" data-param="measure">
+                    {% for key, label in compare_measures.items %}<option value="{{ key }}">{{ label }}</option>{% endfor %}
+                </select>
+            </div>
+        </nav>
+        <div id="dashboard-comparison">{{ comparison_plot|safe }}</div>
+        <table class="table table-sm align-middle mb-0">
+            <thead>
+                <tr><th>Measure</th><th class="text-end">You</th><th class="text-end">Average supplier</th><th class="text-end">Best supplier</th><th class="text-end">Vs. average</th></tr>
+            </thead>
+            <tbody>
+                {% for row in comparison %}
+                    <tr>
+                        <td>{{ row.label }}</td>
+                        {% if row.kind == "money" %}
+                            <td class="text-end fw-bold">${{ row.you|floatformat:0|intcomma }}</td>
+                            <td class="text-end">${{ row.average|floatformat:0|intcomma }}</td>
+                            <td class="text-end">${{ row.best|floatformat:0|intcomma }}</td>
+                        {% else %}
+                            <td class="text-end fw-bold">{{ row.you|floatformat:0|intcomma }}</td>
+                            <td class="text-end">{{ row.average|floatformat:0|intcomma }}</td>
+                            <td class="text-end">{{ row.best|floatformat:0|intcomma }}</td>
+                        {% endif %}
+                        <td class="text-end">{% if row.vs_average is None %}&ndash;{% else %}{{ row.vs_average|floatformat:1 }}%{% endif %}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-muted small mt-2">The average is across all suppliers with sales. The best supplier is shown as a number only; no other supplier is named.</div>
+    {% else %}
+        <div class="dt-subtle">There are no sales yet to compare.</div>
+    {% endif %}
+</div>

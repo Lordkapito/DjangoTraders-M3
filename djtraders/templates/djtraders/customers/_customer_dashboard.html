@@ -1,0 +1,29 @@
+{# Partial (no base.html) for the Dashboard tab -- customer_dashboard view. #}
+{% if annual_plot %}
+    {% include "djtraders/customers/_customer_tiles.html" %}
+    <div class="row g-3 mb-3">
+        <div class="col-lg-6">
+            {% include "djtraders/customers/_customer_revenue_by_year.html" %}
+        </div>
+        <div class="col-lg-6">
+            {% include "djtraders/customers/_customer_revenue_by_month.html" %}
+        </div>
+    </div>
+    <div class="row g-3 mb-3">
+        <div class="col-12">
+            {% include "djtraders/customers/_customer_category_analysis.html" %}
+        </div>
+    </div>
+    <div class="row g-3 mb-3">
+        <div class="col-12">
+            {% include "djtraders/customers/_customer_products_analysis.html" %}
+        </div>
+    </div>
+    <div class="row g-3 mb-3">
+        <div class="col-12">
+            {% include "djtraders/customers/_customer_buy_again.html" %}
+        </div>
+    </div>
+{% else %}
+    <div class="dt-subtle">This customer has no placed orders to chart yet.</div>
+{% endif %}

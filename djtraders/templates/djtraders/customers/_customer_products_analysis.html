@@ -1,0 +1,18 @@
+{# Top products: "Show Top" and the discontinued checkbox reload both charts (customer_products_chart). #}
+<div class="dt-card h-100">
+    <h5 class="dt-card-title">Top Products</h5>
+    <nav class="dt-controls js-chart-controls"
+         data-url="{% url 'djtraders:customer_products_chart' customer.customer_id %}"
+         data-target="#dashboard-products">
+        {% include "djtraders/employees/_top_radios.html" with name="products-top" %}
+        <div class="dt-control-group">
+            <div class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" id="products-hide-discontinued" data-param="hide_discontinued">
+                <label class="form-check-label fw-bold" for="products-hide-discontinued">Hide discontinued products</label>
+            </div>
+        </div>
+    </nav>
+    <div id="dashboard-products">
+        {% include "djtraders/customers/_customer_products_charts.html" with revenue_plot=product_revenue_plot units_plot=product_units_plot %}
+    </div>
+</div>

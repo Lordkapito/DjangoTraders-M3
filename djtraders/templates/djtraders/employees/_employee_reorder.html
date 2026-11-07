@@ -1,0 +1,35 @@
+{% load humanize %}
+{# "Buy it again" for an employee: products their own customers usually reorder that are due (Employee.reorder_opportunities). Only customers on orders this employee handled. #}
+<div class="dt-card h-100">
+    <h5 class="dt-card-title"><i class="fa-solid fa-phone me-1"></i> Reorder Opportunities</h5>
+    {% if reorder_rows %}
+        <p class="dt-subtle mb-2">Customers you handle who are due to reorder a product they usually buy, biggest revenue at stake first. Gaps vary a lot around their typical length: this list says "worth a call", not "will order on Thursday".</p>
+        <div class="table-responsive">
+            <table class="table table-sm align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Customer</th><th>Product</th>
+                        <th class="text-end">Orders</th><th class="text-end">Typical gap (days)</th>
+                        <th class="text-end">Days since last</th><th class="text-end">Days overdue</th>
+                        <th class="text-end">Revenue at stake</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in reorder_rows %}
+                        <tr>
+                            <td>{{ row.customer }}</td>
+                            <td>{{ row.product }}</td>
+                            <td class="text-end">{{ row.orders }}</td>
+                            <td class="text-end">{{ row.typical_gap|intcomma }}</td>
+                            <td class="text-end">{{ row.days_since|intcomma }}</td>
+                            <td class="text-end">{{ row.days_overdue|intcomma }}</td>
+                            <td class="text-end">${{ row.revenue_at_stake|floatformat:2|intcomma }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="dt-subtle">No reorders are due. A product appears here when one of your customers has bought it on at least three different orders and is now past their usual gap.</div>
+    {% endif %}
+</div>

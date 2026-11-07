@@ -1,0 +1,26 @@
+{# Requirement 4 (S1): which products are gaining or losing share of this supplier's revenue. From and To reload the chart (supplier_share_chart). #}
+<div class="dt-card h-100">
+    <h5 class="dt-card-title">Which of my products are gaining or losing share of my revenue?</h5>
+    {% if share_plot %}
+        <nav class="dt-controls js-chart-controls"
+             data-url="{% url 'djtraders:supplier_share_chart' supplier.supplier_id %}"
+             data-target="#dashboard-share">
+            <div class="dt-control-group">
+                <label for="share-start" class="fw-bold mb-0">From</label>
+                <select id="share-start" class="form-select w-auto" data-param="start">
+                    {% for year in share_years %}<option value="{{ year }}"{% if year == share_start %} selected{% endif %}>{{ year }}</option>{% endfor %}
+                </select>
+            </div>
+            <div class="dt-control-group">
+                <label for="share-end" class="fw-bold mb-0">To</label>
+                <select id="share-end" class="form-select w-auto" data-param="end">
+                    {% for year in share_years %}<option value="{{ year }}"{% if year == share_end %} selected{% endif %}>{{ year }}</option>{% endfor %}
+                </select>
+            </div>
+        </nav>
+        <div class="text-muted small">Each bar is a product's share of your revenue in the To year minus its share in the From year, in percentage points. Right (teal) means it is gaining share; left (red) means it is losing share. A part-finished year still gives a fair share, because it is a percent of that year's own revenue.</div>
+        <div id="dashboard-share">{{ share_plot|safe }}</div>
+    {% else %}
+        <div class="dt-subtle">Share change needs orders in at least two different years. Once your products have sold in a second year, this chart will show which ones gained or lost share.</div>
+    {% endif %}
+</div>
